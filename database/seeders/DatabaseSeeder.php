@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Article;
 use App\Models\Product;
 use App\Models\ProductReview;
 use App\Models\Store;
@@ -34,18 +35,21 @@ class DatabaseSeeder extends Seeder
         Store::truncate();
         Product::truncate();
         ProductReview::truncate();
+        Article::truncate();
         
         
         $UserQuantity = 50;
         $StoreQuantity = 500;
         $ProductQuantity = 115;
         $ProductReviewQuantity = 150;
+        $ArticleQuantity = 180;
         
         User::factory($UserQuantity)->create();
         
         Store::factory($StoreQuantity)->create();
         Product::factory($ProductQuantity)->create();
         ProductReview::factory($ProductReviewQuantity)->create();
+        Article::factory($ArticleQuantity)->create();
             
     }
 

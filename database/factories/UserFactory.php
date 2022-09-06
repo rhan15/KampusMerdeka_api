@@ -19,10 +19,12 @@ class UserFactory extends Factory
     {
         static $password;
         return [
+            'photo' => null,
             'name' => fake()->name(),
             'email' => fake()->safeEmail(),
+            'email_verified_at' => null,
+            'phone_number' => null,
             'password' => $password ?: $password = bcrypt('secret'), // password
-            'city' => fake()->city(),
             'remember_token' => Str::random(10),
         ];
     }

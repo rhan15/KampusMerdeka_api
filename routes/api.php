@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\ArticleController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -26,13 +27,42 @@ Route::prefix('user')->group(function () {
     
 });
 
-Route::prefix('product')->group(function () {
-    Route::get('index', [ProductController::class, 'index']);
+// Route::prefix('product')->group(function () {
+//     Route::get('index', [ProductController::class, 'index']);
     
+// });
+
+// Route::prefix('auth')->group(function () {
+//     Route::post('register', [AuthController::class, 'register']);
+//     Route::post('login', [AuthController::class, 'login']);
+
+// });
+
+
+
+Route::controller(AuthController::class)->group(function () {
+    Route::post('/register', 'register');
+    Route::post('/login', 'login');
+    
+    Route::middleware('auth:sanctum')->group(function () {
+
+        Route::prefix('/profile')->group(function () {
+            Route::get('/', 'profile');
+            Route::post('/', 'update');
+        });
+
+        Route::post('/logout', 'logout');
+    });
+
 });
 
-Route::prefix('auth')->group(function () {
-    Route::post('register', [AuthController::class, 'register']);
-    Route::post('login', [AuthController::class, 'login']);
-
+Route::prefix('article')->group(function () {
+    Route::get('/articles', [ArticleController::class, 'index'])->middleware('auth:sanctum');
+    Route::post('/articles', [ArticleController::class, 'store'])->middleware('auth:sanctum');
+    Route::get('/articles/{id}', [ArticleController::class, 'show'])->middleware('auth:sanctum');
+    Route::post('/articles/{id}', [ArticleController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/articles/{id}', [ArticleController::class, 'destroy'])->middleware('auth:sanctum');
+    
+    
+    
 });
